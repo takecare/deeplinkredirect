@@ -1,8 +1,9 @@
 exports.route = function (url, controllers, response) {
-  const pathname = url.pathname;
+  const { parsedUrl, query } = url;
+  const pathname = parsedUrl.pathname;
   const controller = controllers[pathname];
   if (controller) {
-    controllers[pathname](response);
+    controllers[pathname](query, response);
   } else {
     console.error(`Unsupported path: ${pathname}`);
     response.writeHead(404, { "Content-Type": "text/plain" });
