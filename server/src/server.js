@@ -9,5 +9,9 @@ const server = (route, controllers) => (request, response) => {
 };
 
 exports.start = function (route, controllers) {
-  http.createServer(server(route, controllers)).listen(8000);
+  return http.createServer(server(route, controllers)).listen(8000);
+};
+
+exports.close = function () {
+  http.close();
 };

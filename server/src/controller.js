@@ -1,4 +1,5 @@
 function root(query, response) {
+  throw "ERROR";
   const target = query["/?target"] || query["target"];
   const location = target ? { Location: ensureHttps(target) } : {};
   response.writeHead(target ? 302 : 200, location);
