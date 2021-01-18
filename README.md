@@ -1,6 +1,7 @@
 #### TODOs
 
-- Add Android app
+- Add deeplink-handling activity
+- Register activity in manifest (as handler)
 
 #### Resources
 
