@@ -1,12 +1,12 @@
 function root(query, response) {
   const target = query["/?target"] || query["target"];
   const location = target ? { Location: ensureHttps(target) } : {};
-  console.log(location);
   response.writeHead(target ? 302 : 200, location);
   response.write(target ? `302 reditrected ${location}` : "200 ok");
   response.end();
 }
 
+// TODO maybe remove so we easily allow urls like "myapp://dostuff"
 function ensureHttps(target) {
   if (target.startsWith("http://")) {
     return `https://${target.substring(7)}`;
