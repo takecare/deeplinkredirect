@@ -17,6 +17,9 @@
     "watch": [
       "./*"
     ],
+    "ignore": [
+      "*.json"
+    ],
     "env": {
       "NODE_ENV": "development"
     },

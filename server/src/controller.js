@@ -1,4 +1,4 @@
-function root(query, response) {
+function deeplink(query, response) {
   const target = query["/?target"] || query["target"];
   const location = target ? { Location: ensureHttps(target) } : {};
   response.writeHead(target ? 302 : 200, location);
@@ -17,24 +17,50 @@ function ensureHttps(target) {
   }
 }
 
-function about(query, response) {
+function root(query, response) {
+  const random = "123456";
   const body = `
     <html>
     <head>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
     <body>
-      <p>about</p>
+      <h3>deeplink</h3>
+      <p>your app should be configured to handle links like the following:</p>
+      <a href="/deeplink?token=${random}">deeplink</a>
     </body>
     </html>
   `;
   response.writeHead(200, { "Content-Type": "text/html" });
-  response.write(body);
   response.end(body);
+}
+
+const fs = require("fs");
+const path = require("path");
+
+function assetlinks(query, response) {
+  response.writeHead(200, { "Content-Type": "application/json" });
+  const filepath = path.join(
+    __dirname,
+    "..",
+    "public",
+    ".well-known",
+    "assetlinks.json"
+  );
+  fs.readFile(filepath, "utf8", function (err, data) {
+    if (err) {
+      response.statusCode = 404;
+      return response.end(
+        '{"error": "File not found or you made an invalid request."}'
+      );
+    }
+    response.end(data);
+  });
 }
 
 // path -> controller
 exports.controllers = {
   "/": root,
-  "/about": about,
+  "/deeplink": deeplink,
+  "/.well-known/assetlinks.json": assetlinks,
 };
